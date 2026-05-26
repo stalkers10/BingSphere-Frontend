@@ -74,7 +74,15 @@ a:focus {
 
 #container {
   min-height: 100vh;
+  min-width: 0;
   background: transparent;
+}
+
+nav[aria-label="Breadcrumbs"],
+#header,
+.main > #content-start,
+.admin-footer {
+  box-sizing: border-box;
 }
 
 #header {
@@ -208,13 +216,25 @@ div.breadcrumbs {
 }
 
 .main > #content-start {
-  width: min(100%, 1440px);
+  width: 100%;
+  max-width: 1440px;
   padding: 0 clamp(1rem, 2.8vw, 4rem) 3rem;
   margin: 0 auto;
 }
 
 #content {
   color: var(--admin-text);
+}
+
+.bingsphere-dashboard #content {
+  width: auto;
+  max-width: none;
+  padding: 0;
+}
+
+.bingsphere-dashboard #content-main {
+  float: none;
+  width: auto;
 }
 
 #content h1,
@@ -481,6 +501,20 @@ ul.object-tools li {
   line-height: 1.75;
 }
 
+.bingsphere-dashboard .admin-hero {
+  grid-template-columns: minmax(0, 1.18fr) minmax(20rem, 0.95fr);
+  align-items: stretch;
+}
+
+.bingsphere-dashboard .admin-hero__content {
+  max-width: 42rem;
+}
+
+.bingsphere-dashboard .admin-hero h1 {
+  max-width: 10ch;
+  text-wrap: balance;
+}
+
 .admin-hero__stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -512,6 +546,11 @@ ul.object-tools li {
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) minmax(19rem, 0.9fr);
   gap: 1.5rem;
+}
+
+.bingsphere-dashboard .dashboard-grid {
+  grid-template-columns: minmax(0, 1.5fr) minmax(20rem, 0.92fr);
+  align-items: start;
 }
 
 .dashboard-panel {
@@ -546,6 +585,10 @@ ul.object-tools li {
 .admin-app-grid {
   display: grid;
   gap: 1rem;
+}
+
+.bingsphere-dashboard .admin-app-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .app-card {
@@ -601,6 +644,14 @@ ul.object-tools li {
   border-radius: 1.1rem;
   background: rgba(255, 255, 255, 0.04);
   box-shadow: none;
+}
+
+.bingsphere-dashboard .model-tile__content {
+  min-width: 0;
+}
+
+.bingsphere-dashboard .model-tile__actions {
+  justify-content: flex-end;
 }
 
 .model-tile__content h3 {
