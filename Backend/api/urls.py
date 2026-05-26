@@ -21,6 +21,6 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='auth_register'),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('profile/password/', ChangePasswordView.as_view(), name='profile-password'),
+    path('storage-check/', storage_check, name='storage-check'),
     path('api/storage-check/', storage_check),
 ]
-

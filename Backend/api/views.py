@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from django.contrib.auth.models import User
+from django.core.files.storage import default_storage
 from django.db import IntegrityError
 from .models import HomeCollection, Movie, Profile, WatchProgress, Watchlist
 from .serializers import (
@@ -228,8 +229,22 @@ class WatchlistViewSet(viewsets.ModelViewSet):
 @permission_classes([AllowAny])
 def storage_check(request):
     from django.conf import settings
+
+    storage_backend = (
+        f'{default_storage.__class__.__module__}.{default_storage.__class__.__name__}'
+    )
+    configured_backend = settings.STORAGES.get('default', {}).get('BACKEND')
+    cloudinary_keys = settings.CLOUDINARY_STORAGE
+
     return Response({
-        'storage': settings.DEFAULT_FILE_STORAGE,
-        'cloud_name': settings.CLOUDINARY_STORAGE.get('CLOUD_NAME'),
-        'has_api_key': bool(settings.CLOUDINARY_STORAGE.get('API_KEY')),
+        'active_storage': storage_backend,
+        'configured_default_storage': configured_backend,
+        'uses_cloudinary': 'cloudinary' in storage_backend.lower(),
+        'cloudinary_configured': all(
+            bool(cloudinary_keys.get(key))
+            for key in ('CLOUD_NAME', 'API_KEY', 'API_SECRET')
+        ),
+        'has_cloud_name': bool(cloudinary_keys.get('CLOUD_NAME')),
+        'has_api_key': bool(cloudinary_keys.get('API_KEY')),
+        'has_api_secret': bool(cloudinary_keys.get('API_SECRET')),
     })
