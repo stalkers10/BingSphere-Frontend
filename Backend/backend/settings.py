@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
     'rest_framework',
@@ -53,6 +52,11 @@ STORAGES = {
         'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
     },
 }
+
+# Backward-compatible aliases for third-party packages that still read the
+# pre-Django-6 setting names directly.
+DEFAULT_FILE_STORAGE = STORAGES['default']['BACKEND']
+STATICFILES_STORAGE = STORAGES['staticfiles']['BACKEND']
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
