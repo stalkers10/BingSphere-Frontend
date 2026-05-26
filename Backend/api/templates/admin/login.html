@@ -1,0 +1,140 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}{% if form.errors %}{% translate "Error:" %} {% endif %}{{ block.super }}{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login bingsphere-login{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block nav-breadcrumbs %}{% endblock %}
+
+{% block content %}
+  <div class="admin-auth-page">
+    <section class="admin-auth-spotlight" aria-label="Bingsphere introduction">
+      <span class="admin-auth-spotlight__eyebrow">Cinema at Home</span>
+      <h1 class="admin-auth-spotlight__brand">Bingsphere</h1>
+      <p class="admin-auth-spotlight__copy">
+        Manage a darker, warmer catalog experience with curated rows, spotlighted titles,
+        and member-facing content that stays visually aligned with the frontend.
+      </p>
+
+      <div class="admin-auth-spotlight__chips">
+        <span>Trending Now</span>
+        <span>Continue Watching</span>
+        <span>My List</span>
+      </div>
+
+      <div class="admin-auth-spotlight__features">
+        <article class="admin-spotlight-feature">
+          <div class="admin-spotlight-feature__icon">01</div>
+          <div>
+            <h2>Curated Discoveries</h2>
+            <p>Keep hero content, collections, and featured posters tightly controlled from one place.</p>
+          </div>
+        </article>
+
+        <article class="admin-spotlight-feature">
+          <div class="admin-spotlight-feature__icon">02</div>
+          <div>
+            <h2>Member Experience</h2>
+            <p>Adjust profiles, watchlists, and progress data without leaving the branded admin flow.</p>
+          </div>
+        </article>
+
+        <article class="admin-spotlight-feature">
+          <div class="admin-spotlight-feature__icon">03</div>
+          <div>
+            <h2>Editorial Pace</h2>
+            <p>Move quickly through model actions using larger cards, clearer actions, and warmer contrast.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="admin-auth-panel">
+      <div class="admin-auth-card">
+        <p class="admin-auth-card__eyebrow">Welcome Back</p>
+        <h1>Sign in to the control room.</h1>
+        <p class="admin-auth-card__copy">
+          Use your staff account to manage titles, curated rows, and profile content.
+        </p>
+
+        {% if form.errors and not form.non_field_errors %}
+          <div class="admin-auth-feedback admin-auth-feedback--error">
+            {% blocktranslate count counter=form.errors.items|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktranslate %}
+          </div>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+            <div class="admin-auth-feedback admin-auth-feedback--error">{{ error }}</div>
+          {% endfor %}
+        {% endif %}
+
+        {% if user.is_authenticated %}
+          <div class="admin-auth-feedback admin-auth-feedback--error">
+            {% blocktranslate trimmed %}
+              You are authenticated as {{ username }}, but you are not authorized to access this page.
+              Sign in with a different staff account.
+            {% endblocktranslate %}
+          </div>
+        {% endif %}
+
+        <form action="{{ app_path }}" method="post" id="login-form" class="admin-auth-form">
+          {% csrf_token %}
+
+          <label class="admin-form-field" for="id_username">
+            <span>{% translate 'Username' %}</span>
+            {{ form.username.errors }}
+            <div class="admin-form-field__control">
+              <input
+                type="text"
+                name="username"
+                id="id_username"
+                value="{{ form.username.value|default_if_none:'' }}"
+                autocomplete="username"
+                autocapitalize="none"
+                placeholder="{% translate 'Enter your username' %}"
+                autofocus
+              >
+            </div>
+          </label>
+
+          <label class="admin-form-field" for="id_password">
+            <span>{% translate 'Password' %}</span>
+            {{ form.password.errors }}
+            <div class="admin-form-field__control">
+              <input
+                type="password"
+                name="password"
+                id="id_password"
+                autocomplete="current-password"
+                placeholder="{% translate 'Enter your password' %}"
+              >
+            </div>
+          </label>
+
+          <input type="hidden" name="next" value="{{ next }}">
+
+          {% url 'admin_password_reset' as password_reset_url %}
+          {% if password_reset_url %}
+            <div class="password-reset-link">
+              <a href="{{ password_reset_url }}">{% translate 'Forgotten your login credentials?' %}</a>
+            </div>
+          {% endif %}
+
+          <div class="submit-row">
+            <button type="submit" class="button admin-auth-submit">{% translate 'Log in' %}</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+{% endblock %}

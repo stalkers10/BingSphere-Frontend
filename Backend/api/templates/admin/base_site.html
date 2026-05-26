@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin_theme/admin-theme.css' %}">
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} bingsphere-admin{% endblock %}
+
+{% block branding %}
+  <div class="brand-shell">
+    <div class="brand-shell__copy">
+      <span class="brand-shell__eyebrow">Cinema at Home</span>
+      <div id="site-name">
+        <a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a>
+      </div>
+    </div>
+    <p class="brand-shell__text">
+      Curate titles, collections, and profiles with the same darker, warmer language as the customer-facing UI.
+    </p>
+  </div>
+  {% if user.is_anonymous %}
+    {% include "admin/color_theme_toggle.html" %}
+  {% endif %}
+{% endblock %}
+
+{% block footer %}
+  <div class="admin-footer">
+    <span class="admin-footer__brand">Bingsphere</span>
+    <p>Warm, curated admin controls for the streaming catalog.</p>
+  </div>
+{% endblock %}
