@@ -117,6 +117,7 @@
 }
 
 .watchlist-card {
+  position: relative;
   overflow: hidden;
   border: 1px solid var(--surface-border);
   border-radius: 1.25rem;
@@ -132,6 +133,7 @@
 }
 
 .watchlist-card__media {
+  position: relative;
   aspect-ratio: 5 / 7;
   overflow: hidden;
   background: linear-gradient(180deg, #2d1615, #120707);
@@ -229,6 +231,10 @@
   color: #fff7f6;
 }
 
+.watchlist-remove--floating {
+  display: none;
+}
+
 .watchlist-remove:hover {
   background: rgba(255, 255, 255, 0.14);
 }
@@ -255,5 +261,83 @@
   .watchlist-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.85rem;
+  }
+
+  .watchlist-card {
+    border-radius: 0.95rem;
+    background: #120707;
+  }
+
+  .watchlist-card__content {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 2;
+    gap: 0.28rem;
+    padding: 1.9rem 0.75rem 0.7rem;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.64) 36%,
+      rgba(14, 4, 4, 0.94) 100%
+    );
+    pointer-events: none;
+  }
+
+  .watchlist-card__meta {
+    gap: 0.35rem;
+    font-size: 0.68rem;
+  }
+
+  .watchlist-card__meta span:not(.watchlist-badge) {
+    display: none;
+  }
+
+  .watchlist-badge {
+    padding: 0.16rem 0.42rem;
+    background: rgba(229, 9, 20, 0.34);
+    color: #fff2ef;
+    font-size: 0.68rem;
+  }
+
+  .watchlist-card h2 {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    font-size: 0.84rem;
+    line-height: 1.2;
+  }
+
+  .watchlist-card__genres {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    color: #ffe4df;
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .watchlist-card__description,
+  .watchlist-card__actions {
+    display: none;
+  }
+
+  .watchlist-remove--floating {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 3;
+    display: inline-flex;
+    width: 2.05rem;
+    height: 2.05rem;
+    padding: 0;
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(0, 0, 0, 0.54);
+    color: #fff;
+  }
+
+  .watchlist-remove--floating .material-symbols-outlined {
+    font-size: 1.08rem;
   }
 }

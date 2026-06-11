@@ -53,7 +53,8 @@ export class Watchlist implements OnInit {
     this.applyFilter();
   }
 
-  playMovie(movieId: number) {
+  playMovie(movieId: number, event?: Event) {
+    event?.stopPropagation();
     this.router.navigate(['/watch', movieId]);
   }
 

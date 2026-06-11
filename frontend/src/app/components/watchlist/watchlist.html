@@ -52,6 +52,14 @@
             [src]="item.movie_details.thumbnail || item.movie_details.backdrop || placeholderPoster"
             [alt]="item.movie_details.title"
           />
+          <button
+            class="watchlist-remove watchlist-remove--floating"
+            type="button"
+            aria-label="Remove from My List"
+            (click)="removeItem(item, $event)"
+          >
+            <span class="material-symbols-outlined">delete</span>
+          </button>
         </div>
 
         <div class="watchlist-card__content">
@@ -65,7 +73,7 @@
           <p class="watchlist-card__description">{{ item.movie_details.description }}</p>
 
           <div class="watchlist-card__actions">
-            <button class="watchlist-play" type="button">
+            <button class="watchlist-play" type="button" (click)="playMovie(item.movie_details.id, $event)">
               <span class="material-symbols-outlined">play_arrow</span>
               Watch Now
             </button>
