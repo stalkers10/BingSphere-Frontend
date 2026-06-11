@@ -243,13 +243,13 @@
 
 @media (max-width: 960px) {
   .catalog-main {
-    padding-top: 11rem;
+    padding-top: var(--app-navbar-tablet-clearance);
   }
 }
 
 @media (max-width: 640px) {
   .catalog-main {
-    padding-top: 13.5rem;
+    padding-top: var(--app-navbar-mobile-clearance);
     padding-inline: 1rem;
   }
 

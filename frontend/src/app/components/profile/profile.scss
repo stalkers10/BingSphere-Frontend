@@ -314,7 +314,7 @@
 
 @media (max-width: 960px) {
   .profile-page {
-    padding-top: 11rem;
+    padding-top: var(--app-navbar-tablet-clearance);
   }
 
   .profile-hero {
@@ -324,7 +324,7 @@
 
 @media (max-width: 640px) {
   .profile-page {
-    padding-top: 13.5rem;
+    padding-top: var(--app-navbar-mobile-clearance);
   }
 
   .state-card,

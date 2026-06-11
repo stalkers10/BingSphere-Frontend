@@ -20,6 +20,12 @@ html {
   ));
 }
 
+:root {
+  --app-navbar-desktop-clearance: 8.5rem;
+  --app-navbar-tablet-clearance: 12rem;
+  --app-navbar-mobile-clearance: 17.75rem;
+}
+
 body {
   // Default the application to a light color theme. This can be changed to
   // `dark` to enable the dark color theme, or to `light dark` to defer to the

@@ -533,7 +533,7 @@
 @media (max-width: 960px) {
   .hero {
     min-height: 38rem;
-    padding-top: 11rem;
+    padding-top: var(--app-navbar-tablet-clearance);
     padding-bottom: 9rem;
   }
 
@@ -550,7 +550,7 @@
 @media (max-width: 640px) {
   .hero {
     min-height: 33rem;
-    padding-top: 13.5rem;
+    padding-top: var(--app-navbar-mobile-clearance);
   }
 
   .hero p {
