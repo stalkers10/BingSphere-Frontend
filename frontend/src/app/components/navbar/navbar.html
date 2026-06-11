@@ -1,0 +1,63 @@
+<header class="app-navbar">
+  <div class="app-navbar__brand-group">
+    <a class="brand-link" routerLink="/home">Bingsphere</a>
+
+    <nav class="app-navbar__links" aria-label="Main navigation">
+      <a
+        class="nav-link"
+        routerLink="/home"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Home
+      </a>
+      <a
+        class="nav-link"
+        routerLink="/movies"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Movies
+      </a>
+      <a
+        class="nav-link"
+        routerLink="/mylist"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        My List
+      </a>
+    </nav>
+  </div>
+
+  <div class="app-navbar__actions">
+    <label *ngIf="showSearch" class="search-shell" aria-label="Search titles">
+      <span class="material-symbols-outlined">search</span>
+      <input
+        type="search"
+        [value]="searchQuery"
+        placeholder="Search titles, genres, descriptions"
+        (input)="onSearchInput($event)"
+      />
+    </label>
+
+    <a
+      class="profile-badge"
+      routerLink="/profile"
+      routerLinkActive="profile-badge--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      aria-label="Profile"
+    >
+      <img
+        *ngIf="avatarUrl"
+        class="profile-badge__image"
+        [src]="avatarUrl"
+        [alt]="profileLabel + ' avatar'"
+        (error)="onAvatarError()"
+      />
+      <span *ngIf="!avatarUrl" class="profile-badge__initial">{{ resolvedInitial }}</span>
+    </a>
+
+    <button class="logout-button" type="button" (click)="logout()">Logout</button>
+  </div>
+</header>

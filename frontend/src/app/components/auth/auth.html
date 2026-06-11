@@ -1,0 +1,129 @@
+<div class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-spotlight" aria-label="Bingsphere introduction">
+      <span class="auth-spotlight__eyebrow">Cinema at Home</span>
+      <h1 class="auth-spotlight__brand">Bingsphere</h1>
+      <p class="auth-spotlight__copy">
+        Stream a darker, warmer catalog experience with curated picks, saved lists,
+        and a homepage built to keep your next watch within reach.
+      </p>
+
+      <div class="auth-spotlight__chips">
+        <span>Trending Now</span>
+        <span>Continue Watching</span>
+        <span>My List</span>
+      </div>
+
+      <div class="auth-spotlight__features">
+        <article class="spotlight-feature">
+          <span class="material-symbols-outlined">movie</span>
+          <div>
+            <h2>Curated Discoveries</h2>
+            <p>Browse spotlighted titles, recent uploads, and collections that stay easy to scan.</p>
+          </div>
+        </article>
+
+        <article class="spotlight-feature">
+          <span class="material-symbols-outlined">bookmark_manager</span>
+          <div>
+            <h2>Keep Your Queue Close</h2>
+            <p>Save movies to your list and return without losing the titles you planned to watch.</p>
+          </div>
+        </article>
+
+        <article class="spotlight-feature">
+          <span class="material-symbols-outlined">tv</span>
+          <div>
+            <h2>Watch Across Screens</h2>
+            <p>The login flow now collapses cleanly on mobile while keeping the same project styling.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="auth-panel">
+      <div class="auth-card">
+        <p class="auth-card__eyebrow">{{ isLogin ? 'Welcome Back' : 'Create Your Account' }}</p>
+        <h2>{{ isLogin ? 'Sign in to continue watching.' : 'Join Bingsphere and start building your watchlist.' }}</h2>
+        <p class="auth-card__copy">
+          {{ isLogin
+            ? 'Use your account details to access your profile, saved movies, and the home catalog.'
+            : 'Register with a username, email, and password. Once your account is created, you can sign in immediately.' }}
+        </p>
+
+        <form class="auth-form" (ngSubmit)="submit()" novalidate>
+          <label class="form-field">
+            <span>Username</span>
+            <div class="form-field__control">
+              <span class="material-symbols-outlined">person</span>
+              <input
+                [(ngModel)]="username"
+                name="username"
+                type="text"
+                autocomplete="username"
+                placeholder="Enter your username"
+              />
+            </div>
+          </label>
+
+          <label *ngIf="!isLogin" class="form-field">
+            <span>Email Address</span>
+            <div class="form-field__control">
+              <span class="material-symbols-outlined">mail</span>
+              <input
+                [(ngModel)]="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="Enter your email"
+              />
+            </div>
+          </label>
+
+          <label class="form-field">
+            <span>Password</span>
+            <div class="form-field__control form-field__control--password">
+              <span class="material-symbols-outlined">lock</span>
+              <input
+                [(ngModel)]="password"
+                name="password"
+                [type]="showPassword ? 'text' : 'password'"
+                [autocomplete]="isLogin ? 'current-password' : 'new-password'"
+                placeholder="Enter your password"
+              />
+              <button
+                class="visibility-toggle"
+                type="button"
+                [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+                (click)="showPassword = !showPassword"
+              >
+                <span class="material-symbols-outlined">
+                  {{ showPassword ? 'visibility_off' : 'visibility' }}
+                </span>
+              </button>
+            </div>
+          </label>
+
+          <button class="primary-action" type="submit" [disabled]="isSubmitting">
+            {{ isSubmitting ? (isLogin ? 'Signing In...' : 'Creating Account...') : (isLogin ? 'Sign In' : 'Create Account') }}
+          </button>
+        </form>
+
+        <div
+          *ngIf="feedbackMessage"
+          class="auth-feedback"
+          [class.auth-feedback--error]="feedbackTone === 'error'"
+          role="alert"
+        >
+          {{ feedbackMessage }}
+        </div>
+
+        <button class="auth-switch" type="button" (click)="toggleMode()">
+          {{ isLogin ? 'New to Bingsphere? Create an account.' : 'Already have an account? Sign in instead.' }}
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <app-footer></app-footer>
+</div>

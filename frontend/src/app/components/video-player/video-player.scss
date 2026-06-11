@@ -1,0 +1,60 @@
+:host {
+  display: block;
+}
+
+.player-page {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+.player-container {
+  padding: 8.5rem 1.25rem 2rem;
+}
+
+.back-button {
+  margin-bottom: 1.5rem;
+  padding: 0.9rem 1.2rem;
+  border: 0;
+  border-radius: 999px;
+  background: #e50914;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.video-wrapper {
+  width: min(80rem, 100%);
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.status-msg {
+  margin-top: 2rem;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.status-msg--error {
+  color: #ff6a61;
+}
+
+@media (max-width: 960px) {
+  .player-container {
+    padding-top: 11rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .player-container {
+    padding-top: 13.5rem;
+    padding-inline: 1rem;
+  }
+}

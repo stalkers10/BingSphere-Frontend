@@ -1,0 +1,177 @@
+<div class="browse-page">
+  <app-navbar
+    [showSearch]="true"
+    [searchQuery]="searchQuery"
+    (searchQueryChange)="onSearchChange($event)"
+  ></app-navbar>
+
+  <div
+    *ngIf="feedbackMessage"
+    class="feedback-toast"
+    [class.feedback-toast--error]="feedbackTone === 'error'"
+  >
+    {{ feedbackMessage }}
+  </div>
+
+  <main class="browse-main">
+    <section *ngIf="featuredMovie && !isLoading && !error" class="hero">
+      <div
+        class="hero__backdrop"
+        [style.background-image]="'url(' + getHeroBackground(featuredMovie) + ')'"
+      ></div>
+      <div class="hero__overlay"></div>
+
+      <div class="hero__content">
+        <span class="hero__eyebrow">
+          {{ searchQuery.trim() ? 'Search Highlight' : 'Special Preview' }}
+        </span>
+
+        <div class="hero__meta">
+          <span>{{ getGenreSummary(featuredMovie) }}</span>
+          <span>{{ getReleaseYear(featuredMovie) }}</span>
+          <span *ngIf="featuredMovie.maturity_rating">{{ featuredMovie.maturity_rating }}</span>
+          <span>{{ getDurationLabel(featuredMovie) }}</span>
+        </div>
+
+        <h1>{{ featuredMovie.title }}</h1>
+        <p>{{ featuredMovie.description }}</p>
+
+        <div class="hero__actions">
+          <button class="primary-action" type="button" (click)="playMovie(featuredMovie.id)">
+            <span class="material-symbols-outlined">play_arrow</span>
+            Play Now
+          </button>
+
+          <button
+            class="secondary-action"
+            type="button"
+            (click)="addToWatchlist(featuredMovie.id)"
+          >
+            <span class="material-symbols-outlined">add</span>
+            My List
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section *ngIf="isLoading" class="state-card">
+      <span class="material-symbols-outlined">progress_activity</span>
+      <p>Loading the home catalog...</p>
+    </section>
+
+    <section *ngIf="error" class="state-card state-card--error">
+      <span class="material-symbols-outlined">error</span>
+      <p>{{ error }}</p>
+    </section>
+
+    <section *ngIf="!isLoading && !error && !filteredMovies.length" class="state-card">
+      <span class="material-symbols-outlined">search_off</span>
+      <p>No movies match "{{ searchQuery }}".</p>
+    </section>
+
+    <div *ngIf="!isLoading && !error && filteredMovies.length" class="content-rows">
+      <section *ngIf="!searchQuery.trim() && continueWatching.length" class="content-row">
+        <div class="content-row__header">
+          <h2>Continue Watching</h2>
+          <p>Your latest progress</p>
+        </div>
+
+        <div class="continue-row">
+          <article
+            *ngFor="let progress of continueWatching; trackBy: trackByProgressId"
+            class="continue-card"
+            (click)="playMovie(progress.movie.id)"
+          >
+            <div class="continue-card__media">
+              <img
+                [src]="progress.movie.backdrop || progress.movie.thumbnail || placeholderPoster"
+                [alt]="progress.movie.title"
+              />
+              <div class="continue-card__overlay">
+                <span class="material-symbols-outlined">play_arrow</span>
+              </div>
+              <div class="continue-card__progress">
+                <div [style.width]="getProgressWidth(progress)"></div>
+              </div>
+            </div>
+
+            <div class="continue-card__details">
+              <div>
+                <h3>{{ progress.movie.title }}</h3>
+                <p>{{ progress.episode_label || getGenreSummary(progress.movie) }}</p>
+              </div>
+
+              <div class="continue-card__meta">
+                <span class="poster-card__badge">{{ progress.progress_percent }}%</span>
+                <span>{{ getDurationLabel(progress.movie) }}</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    
+      <section
+        *ngFor="let row of visibleRows"
+        class="content-row"
+        [class.content-row--mobile-image-cards]="
+          row.variant === 'trending' || row.variant === 'new-releases'
+        "
+        [class.content-row--new-releases]="row.variant === 'new-releases'"
+      >
+        <div class="content-row__header">
+          <h2>{{ row.title }}</h2>
+          
+        </div>
+
+        <div
+          class="poster-row"
+          [class.poster-row--compact]="row.displayStyle === 'landscape'"
+          [class.poster-row--scrollable]="row.layout === 'horizontal'"
+        >
+          <article
+            *ngFor="let movie of row.movies; trackBy: trackByMovieId"
+            class="poster-card"
+            [class.poster-card--compact]="row.displayStyle === 'landscape'"
+            (click)="playMovie(movie.id)"
+          >
+            <div class="poster-card__media">
+              <img
+                [src]="
+                  row.displayStyle === 'landscape'
+                    ? (movie.backdrop || movie.thumbnail || placeholderPoster)
+                    : (movie.thumbnail || movie.backdrop || placeholderPoster)
+                "
+                [alt]="movie.title"
+              />
+
+              <div class="poster-card__overlay">
+                <button class="overlay-action" type="button" aria-label="Play title">
+                  <span class="material-symbols-outlined">play_circle</span>
+                </button>
+                <button
+                  class="overlay-action overlay-action--outline"
+                  type="button"
+                  aria-label="Add to My List"
+                  (click)="addToWatchlist(movie.id, $event)"
+                >
+                  <span class="material-symbols-outlined">add</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="poster-card__details">
+              <h3>{{ movie.title }}</h3>
+              <p>{{ getGenreSummary(movie) }}</p>
+              <div class="poster-card__meta">
+                <span class="poster-card__badge">{{ getReleaseYear(movie) }}</span>
+                <span>{{ getDurationLabel(movie) }}</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

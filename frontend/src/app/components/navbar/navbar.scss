@@ -1,0 +1,211 @@
+:host {
+  display: block;
+}
+
+.app-navbar {
+  --page-padding: clamp(1rem, 2.8vw, 4rem);
+  --primary: #e50914;
+  --muted: #d4b0ab;
+
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem var(--page-padding);
+  background: linear-gradient(180deg, rgba(12, 4, 4, 0.94), rgba(12, 4, 4, 0.22) 70%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.app-navbar__brand-group,
+.app-navbar__actions,
+.app-navbar__links {
+  display: flex;
+  align-items: center;
+}
+
+.app-navbar__brand-group,
+.app-navbar__actions {
+  gap: 1rem;
+}
+
+.app-navbar__links {
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.brand-link {
+  color: var(--primary);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.75rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.nav-link,
+.logout-button,
+.icon-button {
+  font: inherit;
+}
+
+.nav-link {
+  padding: 0.4rem 0.6rem;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.nav-link.is-active,
+.nav-link:hover {
+  color: #fff7f6;
+  border-color: var(--primary);
+}
+
+.search-shell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: min(24rem, 44vw);
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(28, 9, 9, 0.78);
+  color: var(--muted);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.search-shell input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #fff7f6;
+  font-size: 0.95rem;
+}
+
+.search-shell input::placeholder {
+  color: rgba(255, 218, 213, 0.55);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0;
+  font-size: 1.2rem;
+}
+
+.icon-button,
+.profile-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+.icon-button {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff7f6;
+  cursor: pointer;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.profile-badge {
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 106, 97, 0.45), rgba(255, 255, 255, 0.1));
+  color: #fff7f6;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.profile-badge__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-badge__initial {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.profile-badge--active,
+.profile-badge:hover,
+.icon-button:hover,
+.logout-button:hover {
+  transform: translateY(-1px);
+}
+
+.profile-badge--active {
+  box-shadow: 0 0 0 1px rgba(255, 180, 170, 0.3);
+}
+
+.logout-button {
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff7f6;
+  cursor: pointer;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+@media (max-width: 960px) {
+  .app-navbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .app-navbar__brand-group,
+  .app-navbar__actions {
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .search-shell {
+    min-width: 0;
+    flex: 1 1 16rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-navbar {
+    padding-block: 0.85rem;
+  }
+
+  .brand-link {
+    font-size: 2.4rem;
+  }
+
+  .app-navbar__links {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .app-navbar__actions {
+    gap: 0.75rem;
+  }
+
+  .search-shell {
+    order: 1;
+    width: 100%;
+  }
+
+  .icon-button,
+  .profile-badge {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .logout-button {
+    padding-inline: 0.9rem;
+  }
+}

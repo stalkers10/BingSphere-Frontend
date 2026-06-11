@@ -1,0 +1,66 @@
+<div class="catalog-page">
+  <app-navbar
+    [showSearch]="true"
+    [searchQuery]="searchQuery"
+    (searchQueryChange)="onSearchChange($event)"
+  ></app-navbar>
+
+  <main class="catalog-main">
+    <section class="catalog-hero">
+      <p class="catalog-eyebrow">All Movies</p>
+      <h1>All Uploaded Movies</h1>
+      <p class="catalog-copy">
+        Every movie currently in Bingsphere for now.
+      </p>
+      <div class="catalog-meta">
+        <span>{{ filteredMovies.length }} titles</span>
+        <span>Sorted by latest uploads</span>
+      </div>
+    </section>
+
+    <section *ngIf="isLoading" class="state-card">
+      <span class="material-symbols-outlined">progress_activity</span>
+      <p>Loading uploaded movies...</p>
+    </section>
+
+    <section *ngIf="error" class="state-card state-card--error">
+      <span class="material-symbols-outlined">error</span>
+      <p>{{ error }}</p>
+    </section>
+
+    <section *ngIf="!isLoading && !error && !filteredMovies.length" class="state-card">
+      <span class="material-symbols-outlined">search_off</span>
+      <p>No uploaded movies match "{{ searchQuery }}".</p>
+    </section>
+
+    <section *ngIf="!isLoading && !error && filteredMovies.length" class="catalog-grid">
+      <article
+        *ngFor="let movie of filteredMovies; trackBy: trackByMovieId"
+        class="catalog-card"
+        (click)="playMovie(movie.id)"
+      >
+        <div class="catalog-card__media">
+          <img [src]="movie.thumbnail || movie.backdrop || placeholderPoster" [alt]="movie.title" />
+        </div>
+
+        <div class="catalog-card__content">
+          <div class="catalog-card__meta">
+            <span class="catalog-badge">{{ getReleaseYear(movie) }}</span>
+            <span>{{ getUploadedLabel(movie) }}</span>
+          </div>
+
+          <h2>{{ movie.title }}</h2>
+          <p class="catalog-card__genres">{{ getGenreSummary(movie) }}</p>
+          <p class="catalog-card__description">{{ movie.description }}</p>
+
+          <button class="catalog-play" type="button">
+            <span class="material-symbols-outlined">play_arrow</span>
+            Watch Now
+          </button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <app-footer></app-footer>
+</div>

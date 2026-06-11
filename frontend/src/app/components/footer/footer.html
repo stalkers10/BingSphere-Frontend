@@ -1,0 +1,15 @@
+<footer class="footer">
+  <div class="footer__brand">Bingsphere</div>
+
+  <div class="footer__grid">
+    <a
+      *ngFor="let item of footerLinks"
+      class="footer-link"
+      [routerLink]="item.route"
+    >
+      {{ item.label }}
+    </a>
+  </div>
+
+  <p class="footer__copyright">(c) 2025-2026 Bingsphere, Inc.</p>
+</footer>

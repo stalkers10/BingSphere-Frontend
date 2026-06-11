@@ -1,0 +1,63 @@
+:host {
+  display: block;
+}
+
+.footer {
+  --primary: #e50914;
+  --muted: #d4b0ab;
+  --surface-border: rgba(255, 180, 170, 0.18);
+  --page-padding: clamp(1rem, 2.8vw, 4rem);
+
+  margin-inline: var(--page-padding);
+  padding: 3.5rem 0 4rem;
+  border-top: 1px solid var(--surface-border);
+  color: #ffdad5;
+  font-family: 'Inter', sans-serif;
+}
+
+.footer__brand {
+  color: var(--primary);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, max-content));
+  gap: 1rem 1.5rem;
+  margin-top: 1.8rem;
+  align-items: start;
+}
+
+.footer-link {
+  font: inherit;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: #fff7f6;
+}
+
+.footer__copyright {
+  margin: 1rem 0 0;
+  color: rgba(255, 218, 213, 0.62);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .footer {
+    margin-inline: 1rem;
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr;
+  }
+}

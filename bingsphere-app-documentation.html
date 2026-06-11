@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bingsphere App Documentation</title>
+  <style>
+    :root {
+      --ink: #182026;
+      --muted: #5e6a73;
+      --paper: #f7f3eb;
+      --surface: #fffaf2;
+      --line: #d9cec0;
+      --charcoal: #11161a;
+      --red: #d7212f;
+      --teal: #0f7b72;
+      --blue: #2b5f8f;
+      --gold: #b97919;
+      --green: #35724e;
+      --lavender: #6b5b95;
+      --shadow: 0 18px 48px rgba(27, 31, 35, 0.12);
+      --radius: 8px;
+      --radius-small: 6px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, rgba(17, 22, 26, 0.04) 1px, transparent 1px),
+        linear-gradient(180deg, #f9f5ef 0%, #eee6dc 100%);
+      background-size: 32px 32px, auto;
+      color: var(--ink);
+      font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page-shell {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 32px;
+      align-items: end;
+      min-height: 520px;
+      padding: 42px;
+      color: #fff8ef;
+      background:
+        linear-gradient(135deg, rgba(17, 22, 26, 0.92), rgba(55, 15, 20, 0.88)),
+        url("Backend/media/backdrops/the_cinema.png");
+      background-size: cover;
+      background-position: center;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero__eyebrow,
+    .section-label,
+    .pill {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-small);
+      background: rgba(255, 255, 255, 0.1);
+      color: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 760px;
+      margin: 20px 0 18px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 4.35rem;
+      line-height: 0.96;
+      font-weight: 700;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0;
+      color: #f4d7cf;
+      font-size: 1.08rem;
+    }
+
+    .hero-panel {
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+      background: rgba(255, 250, 242, 0.92);
+      color: var(--ink);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .hero-panel strong {
+      font-size: 1.1rem;
+    }
+
+    .hero-panel ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 22px 0 34px;
+    }
+
+    .toc a {
+      padding: 9px 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-small);
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    section {
+      margin: 34px 0;
+      padding: 30px;
+      background: rgba(255, 250, 242, 0.9);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 32px rgba(24, 32, 38, 0.06);
+    }
+
+    .section-head {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .section-label {
+      border-color: rgba(15, 123, 114, 0.24);
+      background: rgba(15, 123, 114, 0.1);
+      color: var(--teal);
+    }
+
+    h2,
+    h3 {
+      margin: 0;
+      color: var(--ink);
+      line-height: 1.15;
+    }
+
+    h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2.1rem;
+    }
+
+    h3 {
+      font-size: 1.18rem;
+    }
+
+    .section-head p,
+    .muted {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 18px;
+      background: #ffffff;
+      border: 1px solid #e4d9ca;
+      border-radius: var(--radius);
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+    }
+
+    .card p,
+    .card ul {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .card ul {
+      padding-left: 18px;
+    }
+
+    .accent-red {
+      border-top: 4px solid var(--red);
+    }
+
+    .accent-teal {
+      border-top: 4px solid var(--teal);
+    }
+
+    .accent-blue {
+      border-top: 4px solid var(--blue);
+    }
+
+    .accent-gold {
+      border-top: 4px solid var(--gold);
+    }
+
+    .accent-green {
+      border-top: 4px solid var(--green);
+    }
+
+    .accent-lavender {
+      border-top: 4px solid var(--lavender);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 138px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid #e3d8ca;
+      border-radius: var(--radius);
+    }
+
+    .flow-step::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -13px;
+      width: 13px;
+      height: 2px;
+      background: var(--line);
+    }
+
+    .flow-step:last-child::after {
+      display: none;
+    }
+
+    .flow-step span {
+      display: inline-flex;
+      width: 28px;
+      height: 28px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      border-radius: 50%;
+      background: var(--charcoal);
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .flow-step h3 {
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .flow-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .schema {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .schema-node {
+      padding: 14px;
+      border: 1px solid #ddd0c1;
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .schema-node strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+
+    .schema-node span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    th,
+    td {
+      padding: 13px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid #e7dccf;
+    }
+
+    th {
+      background: #182026;
+      color: #fff8ef;
+      font-size: 0.88rem;
+    }
+
+    td {
+      color: var(--muted);
+    }
+
+    code {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: #eee4d8;
+      color: #29323a;
+      font-family: Consolas, "Liberation Mono", monospace;
+      font-size: 0.9em;
+    }
+
+    .code-panel {
+      overflow-x: auto;
+      margin: 0;
+      padding: 18px;
+      background: #11161a;
+      color: #eaf3ef;
+      border-radius: var(--radius);
+      font-family: Consolas, "Liberation Mono", monospace;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .callout {
+      padding: 18px;
+      background: #eef7f5;
+      border: 1px solid rgba(15, 123, 114, 0.25);
+      border-left: 5px solid var(--teal);
+      border-radius: var(--radius);
+    }
+
+    .callout.warning {
+      background: #fff4df;
+      border-color: rgba(185, 121, 25, 0.25);
+      border-left-color: var(--gold);
+    }
+
+    .stack-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      background: #fff;
+      border-color: #ded2c4;
+      color: var(--ink);
+      text-transform: none;
+      font-size: 0.86rem;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      gap: 16px;
+      padding: 16px;
+      border: 1px solid #e3d8ca;
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .timeline-item strong {
+      color: var(--teal);
+    }
+
+    .timeline-item p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      padding: 24px 0 10px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .grid.two,
+      .grid.three {
+        grid-template-columns: 1fr;
+      }
+
+      .flow,
+      .schema {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .flow-step::after {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page-shell {
+        padding: 14px;
+      }
+
+      .hero,
+      section {
+        padding: 20px;
+      }
+
+      .hero h1 {
+        font-size: 2.45rem;
+      }
+
+      h2 {
+        font-size: 1.65rem;
+      }
+
+      .flow,
+      .schema,
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div>
+        <span class="hero__eyebrow">Bingsphere system guide</span>
+        <h1>How the Mini Netflix app works</h1>
+        <p>
+          This document explains the functioning of the Bingsphere streaming platform:
+          the Angular frontend, Django REST backend, API data transmission, JWT
+          authentication, Cloudinary media handling, admin management, and deployment flow.
+        </p>
+      </div>
+
+      <aside class="hero-panel" aria-label="Project summary">
+        <strong>Project identity</strong>
+        <ul>
+          <li>Frontend: Angular single page application</li>
+          <li>Backend: Django 6 + Django REST Framework</li>
+          <li>Authentication: JWT access and refresh tokens</li>
+          <li>Media: Cloudinary-backed image uploads</li>
+          <li>Deployment target: Render backend, separate frontend host</li>
+        </ul>
+      </aside>
+    </header>
+
+    <nav class="toc" aria-label="Document sections">
+      <a href="#overview">Overview</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#backend">Backend</a>
+      <a href="#api">API</a>
+      <a href="#frontend">Frontend</a>
+      <a href="#cloudinary">Cloudinary</a>
+      <a href="#deployment">Deployment</a>
+      <a href="#walkthrough">Request Flow</a>
+    </nav>
+
+    <section id="overview">
+      <div class="section-head">
+        <span class="section-label">01 Overview</span>
+        <h2>Application purpose</h2>
+        <p>
+          Bingsphere is a streaming catalog application inspired by Netflix. Users
+          authenticate, browse curated movie rows, search titles, play embedded videos,
+          manage a personal watchlist, and update profile information.
+        </p>
+      </div>
+
+      <div class="grid three">
+        <article class="card accent-red">
+          <h3>Catalog browsing</h3>
+          <p>
+            Movies are grouped into curated home collections. The frontend receives
+            featured content, rows, catalog data, and continue-watching progress from
+            the backend.
+          </p>
+        </article>
+
+        <article class="card accent-teal">
+          <h3>User accounts</h3>
+          <p>
+            Registration creates a Django user and profile. Login returns JWT tokens,
+            and protected API requests use the access token in the Authorization header.
+          </p>
+        </article>
+
+        <article class="card accent-blue">
+          <h3>Media delivery</h3>
+          <p>
+            Movie thumbnails, backdrops, and profile avatars are image fields. The app
+            is configured so new uploads use Cloudinary instead of temporary Render disk.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="section-head">
+        <span class="section-label">02 Architecture</span>
+        <h2>High-level system map</h2>
+        <p>
+          The application is split into a frontend browser experience and a backend
+          API service. The frontend never talks directly to the database or Cloudinary;
+          it sends HTTP requests to Django, and Django controls persistence.
+        </p>
+      </div>
+
+      <div class="flow" aria-label="Architecture flow">
+        <div class="flow-step">
+          <span>1</span>
+          <h3>Browser</h3>
+          <p>Angular renders pages, handles search, stores tokens, and submits user actions.</p>
+        </div>
+        <div class="flow-step">
+          <span>2</span>
+          <h3>Runtime config</h3>
+          <p><code>app-config.js</code> provides the deployed API base URL to Angular.</p>
+        </div>
+        <div class="flow-step">
+          <span>3</span>
+          <h3>Django API</h3>
+          <p>DRF validates requests, checks JWT auth, serializes data, and returns JSON.</p>
+        </div>
+        <div class="flow-step">
+          <span>4</span>
+          <h3>Database</h3>
+          <p>PostgreSQL stores users, movies, genres, watchlists, collections, and progress.</p>
+        </div>
+        <div class="flow-step">
+          <span>5</span>
+          <h3>Cloudinary</h3>
+          <p>Image uploads are stored externally and returned as URLs for frontend display.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="backend">
+      <div class="section-head">
+        <span class="section-label">03 Backend</span>
+        <h2>Django backend responsibilities</h2>
+        <p>
+          The backend lives in <code>Backend/</code>. It owns data structure, API
+          behavior, authentication enforcement, upload storage, and the custom Django
+          admin interface.
+        </p>
+      </div>
+
+      <div class="grid two">
+        <article class="card accent-green">
+          <h3>Core models</h3>
+          <ul>
+            <li><code>Movie</code>: title, description, release date, poster, backdrop, video URL, type, duration, rating, featured rank.</li>
+            <li><code>Genre</code>: unique genre names attached to movies.</li>
+            <li><code>HomeCollection</code>: curated home rows such as trending or new releases.</li>
+            <li><code>HomeCollectionItem</code>: ordered relationship between a collection and a movie.</li>
+            <li><code>Watchlist</code>: one saved movie per user.</li>
+            <li><code>WatchProgress</code>: continue-watching progress per user and movie.</li>
+            <li><code>Profile</code>: one-to-one user profile with avatar image.</li>
+          </ul>
+        </article>
+
+        <article class="card accent-lavender">
+          <h3>Backend services</h3>
+          <ul>
+            <li>Django REST Framework exposes JSON endpoints.</li>
+            <li>Simple JWT issues access and refresh tokens.</li>
+            <li>Django admin manages catalog, collections, users, profiles, and media previews.</li>
+            <li>WhiteNoise serves collected static files in production.</li>
+            <li>Cloudinary storage handles user and catalog image uploads.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="schema" aria-label="Data model summary">
+        <div class="schema-node">
+          <strong>User</strong>
+          <span>Owns profile, watchlist entries, and watch progress.</span>
+        </div>
+        <div class="schema-node">
+          <strong>Movie</strong>
+          <span>Has genres, images, metadata, and a playable video URL.</span>
+        </div>
+        <div class="schema-node">
+          <strong>Collection</strong>
+          <span>Controls the rows displayed on the home screen.</span>
+        </div>
+        <div class="schema-node">
+          <strong>Cloudinary</strong>
+          <span>Stores thumbnails, backdrops, and avatars outside the app disk.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="api">
+      <div class="section-head">
+        <span class="section-label">04 API</span>
+        <h2>API endpoints and data transmission</h2>
+        <p>
+          The API base URL is normalized by Angular and then used by services such as
+          <code>ApiService</code> and <code>AuthService</code>. Most endpoints require
+          a JWT access token.
+        </p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>Purpose</th>
+            <th>Auth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/api/health/</code></td>
+            <td>GET</td>
+            <td>Render health check endpoint. Returns <code>{ "status": "ok" }</code>.</td>
+            <td>Public</td>
+          </tr>
+          <tr>
+            <td><code>/api/register/</code></td>
+            <td>POST</td>
+            <td>Creates a Django user and matching profile.</td>
+            <td>Public</td>
+          </tr>
+          <tr>
+            <td><code>/api/token/</code></td>
+            <td>POST</td>
+            <td>Validates username and password. Returns JWT access and refresh tokens.</td>
+            <td>Public</td>
+          </tr>
+          <tr>
+            <td><code>/api/token/refresh/</code></td>
+            <td>POST</td>
+            <td>Accepts a refresh token and returns a new access token.</td>
+            <td>Public with refresh token</td>
+          </tr>
+          <tr>
+            <td><code>/api/home/</code></td>
+            <td>GET</td>
+            <td>Returns featured movie, full catalog, curated rows, and continue-watching data.</td>
+            <td>JWT required</td>
+          </tr>
+          <tr>
+            <td><code>/api/movies/</code></td>
+            <td>GET</td>
+            <td>Lists movies and supports search over title and description.</td>
+            <td>JWT required</td>
+          </tr>
+          <tr>
+            <td><code>/api/movies/{id}/</code></td>
+            <td>GET</td>
+            <td>Returns one movie for the video player page.</td>
+            <td>JWT required</td>
+          </tr>
+          <tr>
+            <td><code>/api/watchlist/</code></td>
+            <td>GET, POST</td>
+            <td>Lists saved movies or adds a movie to the signed-in user's list.</td>
+            <td>JWT required</td>
+          </tr>
+          <tr>
+            <td><code>/api/watchlist/{id}/</code></td>
+            <td>DELETE</td>
+            <td>Removes a saved watchlist item.</td>
+            <td>JWT required</td>
+          </tr>
+          <tr>
+            <td><code>/api/profile/</code></td>
+            <td>GET, PATCH</td>
+            <td>Loads the current profile, uploads an avatar, or removes an avatar.</td>
+            <td>JWT required</td>
+          </tr>
+          <tr>
+            <td><code>/api/profile/password/</code></td>
+            <td>POST</td>
+            <td>Validates current password and saves a new password.</td>
+            <td>JWT required</td>
+          </tr>
+          <tr>
+            <td><code>/api/storage-check/</code></td>
+            <td>GET</td>
+            <td>Reports whether the deployed default storage is using Cloudinary.</td>
+            <td>Public diagnostic</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="frontend">
+      <div class="section-head">
+        <span class="section-label">05 Frontend</span>
+        <h2>Angular frontend behavior</h2>
+        <p>
+          The frontend is a standalone Angular application. It uses routes for each
+          screen, service classes for HTTP communication, and shared navbar/footer
+          components for navigation.
+        </p>
+      </div>
+
+      <div class="grid three">
+        <article class="card accent-red">
+          <h3>Routes</h3>
+          <p>
+            <code>/login</code>, <code>/home</code>, <code>/movies</code>,
+            <code>/mylist</code>, <code>/watch/:id</code>, <code>/profile</code>,
+            <code>/privacy-policy</code>, and <code>/terms-of-use</code>.
+          </p>
+        </article>
+
+        <article class="card accent-blue">
+          <h3>Services</h3>
+          <p>
+            <code>AuthService</code> handles registration, login, logout, and token
+            storage. <code>ApiService</code> loads movies, home data, watchlist,
+            profile, avatars, and password updates.
+          </p>
+        </article>
+
+        <article class="card accent-teal">
+          <h3>Design flow</h3>
+          <p>
+            The home screen uses a cinematic hero, search-enabled navbar, curated
+            content rows, continue-watching cards, poster grids, and feedback toasts.
+          </p>
+        </article>
+      </div>
+
+      <div class="callout">
+        <strong>Runtime API configuration:</strong>
+        <code>frontend/public/app-config.js</code> stores <code>API_BASE_URL</code>.
+        Angular reads it through <code>runtime-config.ts</code>, normalizes the URL,
+        and builds endpoint paths with <code>apiUrl()</code>. This prevents deployed
+        frontend code from being locked to localhost.
+      </div>
+    </section>
+
+    <section id="cloudinary">
+      <div class="section-head">
+        <span class="section-label">06 Cloudinary</span>
+        <h2>Media upload and delivery</h2>
+        <p>
+          Render's free filesystem can lose uploaded files after rebuilds or restarts.
+          This project avoids that by configuring Django's default file storage to
+          Cloudinary for media uploads.
+        </p>
+      </div>
+
+      <div class="grid two">
+        <article class="card accent-teal">
+          <h3>How uploads are stored</h3>
+          <p>
+            <code>Movie.thumbnail</code>, <code>Movie.backdrop</code>, and
+            <code>Profile.avatar</code> are Django <code>ImageField</code> fields.
+            Because <code>STORAGES["default"]</code> points to
+            <code>cloudinary_storage.storage.MediaCloudinaryStorage</code>, new image
+            uploads are sent to Cloudinary.
+          </p>
+        </article>
+
+        <article class="card accent-gold">
+          <h3>Required environment variables</h3>
+          <ul>
+            <li><code>CLOUDINARY_CLOUD_NAME</code></li>
+            <li><code>CLOUDINARY_API_KEY</code></li>
+            <li><code>CLOUDINARY_API_SECRET</code></li>
+          </ul>
+        </article>
+      </div>
+
+      <pre class="code-panel">STORAGES = {
+  "default": {
+    "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+  },
+  "staticfiles": {
+    "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+  },
+}</pre>
+    </section>
+
+    <section id="deployment">
+      <div class="section-head">
+        <span class="section-label">07 Deployment</span>
+        <h2>Production configuration</h2>
+        <p>
+          The backend is prepared for Render. The frontend can be hosted separately
+          as long as <code>API_BASE_URL</code> points to the deployed backend API.
+        </p>
+      </div>
+
+      <div class="grid two">
+        <article class="card accent-blue">
+          <h3>Backend service</h3>
+          <ul>
+            <li>Root directory: <code>Backend</code></li>
+            <li>Build command: <code>bash build.sh</code></li>
+            <li>Start command: <code>python -m gunicorn backend.wsgi:application --workers 2 --timeout 120</code></li>
+            <li>Health check: <code>/api/health/</code></li>
+          </ul>
+        </article>
+
+        <article class="card accent-green">
+          <h3>Production settings</h3>
+          <ul>
+            <li><code>DATABASE_URL</code> configures PostgreSQL through <code>dj-database-url</code>.</li>
+            <li><code>RENDER_EXTERNAL_HOSTNAME</code> is added to allowed hosts.</li>
+            <li><code>CORS_ALLOWED_ORIGINS</code> allows the Angular frontend domain.</li>
+            <li><code>SECRET_KEY</code> and Cloudinary keys must be set in Render.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout warning">
+        <strong>Important:</strong>
+        <code>render.yaml</code> documents a blueprint-style deployment, but if the
+        service was created manually in Render, the Render dashboard settings are the
+        active source of truth.
+      </div>
+    </section>
+
+    <section id="walkthrough">
+      <div class="section-head">
+        <span class="section-label">08 Request flow</span>
+        <h2>Example: loading the home page</h2>
+        <p>
+          This is the normal path a signed-in user follows when opening the catalog.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <strong>Step 1</strong>
+          <p>The user logs in. Django validates credentials through <code>/api/token/</code> and sends back access and refresh tokens.</p>
+        </div>
+        <div class="timeline-item">
+          <strong>Step 2</strong>
+          <p>Angular stores tokens in <code>localStorage</code>. The auth interceptor attaches the access token to protected requests.</p>
+        </div>
+        <div class="timeline-item">
+          <strong>Step 3</strong>
+          <p>The home component calls <code>ApiService.getHomePage()</code>, which requests <code>/api/home/</code>.</p>
+        </div>
+        <div class="timeline-item">
+          <strong>Step 4</strong>
+          <p>Django builds the response: featured movie, catalog, collections, and continue-watching records for the authenticated user.</p>
+        </div>
+        <div class="timeline-item">
+          <strong>Step 5</strong>
+          <p>Serializers convert Django models into JSON and build absolute media URLs for thumbnails, backdrops, and avatars.</p>
+        </div>
+        <div class="timeline-item">
+          <strong>Step 6</strong>
+          <p>Angular renders the hero, rows, search state, poster cards, continue-watching cards, and playback navigation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="file-map">
+      <div class="section-head">
+        <span class="section-label">09 File map</span>
+        <h2>Where the important code lives</h2>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>Files</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Backend settings</td>
+            <td><code>Backend/backend/settings.py</code></td>
+            <td>Database, Cloudinary, static files, CORS, JWT configuration.</td>
+          </tr>
+          <tr>
+            <td>Backend routing</td>
+            <td><code>Backend/backend/urls.py</code>, <code>Backend/api/urls.py</code></td>
+            <td>Connects admin, token routes, and app API endpoints.</td>
+          </tr>
+          <tr>
+            <td>Data models</td>
+            <td><code>Backend/api/models.py</code></td>
+            <td>Defines catalog, collection, profile, watchlist, and progress data.</td>
+          </tr>
+          <tr>
+            <td>API behavior</td>
+            <td><code>Backend/api/views.py</code>, <code>Backend/api/serializers.py</code></td>
+            <td>Validates requests and converts models to frontend-ready JSON.</td>
+          </tr>
+          <tr>
+            <td>Frontend data layer</td>
+            <td><code>frontend/src/app/services/api.ts</code>, <code>frontend/src/app/services/auth.ts</code></td>
+            <td>Centralizes HTTP requests, authentication, profile state, and token storage.</td>
+          </tr>
+          <tr>
+            <td>Frontend routing</td>
+            <td><code>frontend/src/app/app.routes.ts</code></td>
+            <td>Maps URLs to Angular screens.</td>
+          </tr>
+          <tr>
+            <td>Runtime config</td>
+            <td><code>frontend/src/app/config/runtime-config.ts</code>, <code>frontend/scripts/write-app-config.mjs</code></td>
+            <td>Keeps deployed API URLs configurable without code rewrites.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="section-label">10 Summary</span>
+        <h2>Core functionality in one paragraph</h2>
+        <p>
+          Bingsphere works by letting Angular present a streaming interface while
+          Django controls trusted operations. The browser sends requests through
+          typed services; JWT tokens prove the user's identity; DRF views query and
+          serialize database models; Cloudinary stores and serves uploaded media;
+          and the frontend turns the returned JSON into a polished catalog, watchlist,
+          profile, and video playback experience.
+        </p>
+      </div>
+
+      <div class="stack-list" aria-label="Technology stack">
+        <span class="pill">Angular</span>
+        <span class="pill">Django 6</span>
+        <span class="pill">Django REST Framework</span>
+        <span class="pill">Simple JWT</span>
+        <span class="pill">PostgreSQL</span>
+        <span class="pill">Cloudinary</span>
+        <span class="pill">WhiteNoise</span>
+        <span class="pill">Render</span>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      Bingsphere documentation page generated from the current project structure.
+    </p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<div class="profile-page">
+  <app-navbar></app-navbar>
+
+  <main class="profile-main">
+    <section *ngIf="isLoading" class="state-card">
+      <span class="material-symbols-outlined">progress_activity</span>
+      <p>Loading your profile...</p>
+    </section>
+
+    <section *ngIf="error" class="state-card state-card--error">
+      <span class="material-symbols-outlined">error</span>
+      <p>{{ error }}</p>
+    </section>
+
+    <div *ngIf="!isLoading && !error && profile" class="profile-layout">
+      <section class="profile-card profile-card--hero">
+        <p class="profile-eyebrow">Profile</p>
+
+        <div class="profile-hero">
+          <div class="profile-avatar" [class.profile-avatar--empty]="!avatarSource">
+            <img
+              *ngIf="avatarSource"
+              [src]="avatarSource"
+              [alt]="profile.username + ' avatar'"
+              (error)="onAvatarImageError()"
+            />
+            <span *ngIf="!avatarSource" class="profile-avatar__initial">{{ profileInitial }}</span>
+          </div>
+
+          <div class="profile-copy">
+            <h1>{{ displayName }}</h1>
+            <p>{{ profile.email || 'No email saved yet.' }}</p>
+            <span class="profile-meta">Member since {{ joinedDateLabel }}</span>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <label class="action-button action-button--primary" [class.action-button--disabled]="isUploadingAvatar">
+            <input
+              class="file-input"
+              type="file"
+              accept="image/*"
+              [disabled]="isUploadingAvatar"
+              (change)="onAvatarSelected($event)"
+            />
+            {{ isUploadingAvatar ? 'Uploading...' : (avatarSource ? 'Change Avatar' : 'Upload Avatar') }}
+          </label>
+
+          <button
+            *ngIf="avatarSource"
+            class="action-button action-button--ghost"
+            type="button"
+            [disabled]="isUploadingAvatar"
+            (click)="removeAvatar()"
+          >
+            Remove Avatar
+          </button>
+        </div>
+
+        <p class="section-copy">
+          Upload a photo for your account. If no avatar is saved, your profile initial is shown.
+        </p>
+
+        <div *ngIf="profileFeedback" class="feedback-pill" [class.feedback-pill--error]="profileFeedbackTone === 'error'">
+          {{ profileFeedback }}
+        </div>
+      </section>
+
+      <section class="profile-card">
+        <div class="section-heading">
+          <h2>Account Information</h2>
+          <p>Details currently stored from your registration data.</p>
+        </div>
+
+        <div class="info-grid">
+          <article class="info-item">
+            <span>Username</span>
+            <strong>{{ profile.username }}</strong>
+          </article>
+
+          <article class="info-item">
+            <span>Email Address</span>
+            <strong>{{ profile.email || 'Not provided' }}</strong>
+          </article>
+
+          <article *ngIf="profile.full_name" class="info-item">
+            <span>Full Name</span>
+            <strong>{{ profile.full_name }}</strong>
+          </article>
+
+          <article class="info-item">
+            <span>Member Since</span>
+            <strong>{{ joinedDateLabel }}</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="profile-card">
+        <div class="section-heading">
+          <h2>Change Password</h2>
+          <p>Update your password without affecting the rest of your account details.</p>
+        </div>
+
+        <form class="password-form" (ngSubmit)="changePassword()">
+          <label class="field-group">
+            <span>Current Password</span>
+            <div class="password-shell">
+              <input
+                [(ngModel)]="currentPassword"
+                [type]="showCurrentPassword ? 'text' : 'password'"
+                name="currentPassword"
+                autocomplete="current-password"
+                placeholder="Enter your current password"
+              />
+              <button
+                class="toggle-visibility"
+                type="button"
+                (click)="showCurrentPassword = !showCurrentPassword"
+                [attr.aria-label]="showCurrentPassword ? 'Hide current password' : 'Show current password'"
+              >
+                <span class="material-symbols-outlined">
+                  {{ showCurrentPassword ? 'visibility_off' : 'visibility' }}
+                </span>
+              </button>
+            </div>
+          </label>
+
+          <label class="field-group">
+            <span>New Password</span>
+            <div class="password-shell">
+              <input
+                [(ngModel)]="newPassword"
+                [type]="showNewPassword ? 'text' : 'password'"
+                name="newPassword"
+                autocomplete="new-password"
+                placeholder="Enter your new password"
+              />
+              <button
+                class="toggle-visibility"
+                type="button"
+                (click)="showNewPassword = !showNewPassword"
+                [attr.aria-label]="showNewPassword ? 'Hide new password' : 'Show new password'"
+              >
+                <span class="material-symbols-outlined">
+                  {{ showNewPassword ? 'visibility_off' : 'visibility' }}
+                </span>
+              </button>
+            </div>
+          </label>
+
+          <label class="field-group">
+            <span>Confirm New Password</span>
+            <div class="password-shell">
+              <input
+                [(ngModel)]="confirmPassword"
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                name="confirmPassword"
+                autocomplete="new-password"
+                placeholder="Re-enter your new password"
+              />
+              <button
+                class="toggle-visibility"
+                type="button"
+                (click)="showConfirmPassword = !showConfirmPassword"
+                [attr.aria-label]="showConfirmPassword ? 'Hide password confirmation' : 'Show password confirmation'"
+              >
+                <span class="material-symbols-outlined">
+                  {{ showConfirmPassword ? 'visibility_off' : 'visibility' }}
+                </span>
+              </button>
+            </div>
+          </label>
+
+          <button class="password-submit" type="submit" [disabled]="isChangingPassword">
+            {{ isChangingPassword ? 'Saving...' : 'Save New Password' }}
+          </button>
+        </form>
+
+        <div *ngIf="passwordFeedback" class="feedback-pill" [class.feedback-pill--error]="passwordFeedbackTone === 'error'">
+          {{ passwordFeedback }}
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

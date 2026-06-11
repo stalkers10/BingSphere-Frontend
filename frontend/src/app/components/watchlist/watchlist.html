@@ -1,0 +1,84 @@
+<div class="watchlist-page">
+  <app-navbar
+    [showSearch]="true"
+    [searchQuery]="searchQuery"
+    (searchQueryChange)="onSearchChange($event)"
+  ></app-navbar>
+
+  <div
+    *ngIf="feedbackMessage"
+    class="feedback-toast"
+    [class.feedback-toast--error]="feedbackTone === 'error'"
+  >
+    {{ feedbackMessage }}
+  </div>
+
+  <main class="watchlist-main">
+    <section class="watchlist-hero">
+      <p class="watchlist-eyebrow">My List</p>
+      <h1>Your Watchlist</h1>
+      <p class="watchlist-copy">
+        Titles you saved from the home page.
+      </p>
+      <div class="watchlist-meta">
+        <span>{{ filteredItems.length }} saved titles</span>
+        <span>Newest saved first</span>
+      </div>
+    </section>
+
+    <section *ngIf="isLoading" class="state-card">
+      <span class="material-symbols-outlined">progress_activity</span>
+      <p>Loading your watchlist...</p>
+    </section>
+
+    <section *ngIf="error" class="state-card state-card--error">
+      <span class="material-symbols-outlined">error</span>
+      <p>{{ error }}</p>
+    </section>
+
+    <section *ngIf="!isLoading && !error && !filteredItems.length" class="state-card">
+      <span class="material-symbols-outlined">bookmark_remove</span>
+      <p>{{ searchQuery ? 'No saved titles match your search.' : 'Your watchlist is empty.' }}</p>
+    </section>
+
+    <section *ngIf="!isLoading && !error && filteredItems.length" class="watchlist-grid">
+      <article
+        *ngFor="let item of filteredItems; trackBy: trackByItemId"
+        class="watchlist-card"
+        (click)="playMovie(item.movie_details.id)"
+      >
+        <div class="watchlist-card__media">
+          <img
+            [src]="item.movie_details.thumbnail || item.movie_details.backdrop || placeholderPoster"
+            [alt]="item.movie_details.title"
+          />
+        </div>
+
+        <div class="watchlist-card__content">
+          <div class="watchlist-card__meta">
+            <span class="watchlist-badge">{{ getReleaseYear(item) }}</span>
+            <span>{{ getSavedLabel(item) }}</span>
+          </div>
+
+          <h2>{{ item.movie_details.title }}</h2>
+          <p class="watchlist-card__genres">{{ getGenreSummary(item) }}</p>
+          <p class="watchlist-card__description">{{ item.movie_details.description }}</p>
+
+          <div class="watchlist-card__actions">
+            <button class="watchlist-play" type="button">
+              <span class="material-symbols-outlined">play_arrow</span>
+              Watch Now
+            </button>
+
+            <button class="watchlist-remove" type="button" (click)="removeItem(item, $event)">
+              <span class="material-symbols-outlined">delete</span>
+              Remove
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <app-footer></app-footer>
+</div>
