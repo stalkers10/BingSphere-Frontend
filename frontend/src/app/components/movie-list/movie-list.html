@@ -5,6 +5,14 @@
     (searchQueryChange)="onSearchChange($event)"
   ></app-navbar>
 
+  <div
+    *ngIf="feedbackMessage"
+    class="feedback-toast"
+    [class.feedback-toast--error]="feedbackTone === 'error'"
+  >
+    {{ feedbackMessage }}
+  </div>
+
   <main class="catalog-main">
     <section class="catalog-hero">
       <p class="catalog-eyebrow">All Movies</p>
@@ -41,6 +49,14 @@
       >
         <div class="catalog-card__media">
           <img [src]="movie.thumbnail || movie.backdrop || placeholderPoster" [alt]="movie.title" />
+          <button
+            class="catalog-save catalog-save--floating"
+            type="button"
+            aria-label="Add to My List"
+            (click)="addToWatchlist(movie.id, $event)"
+          >
+            <span class="material-symbols-outlined">add</span>
+          </button>
         </div>
 
         <div class="catalog-card__content">
@@ -53,10 +69,17 @@
           <p class="catalog-card__genres">{{ getGenreSummary(movie) }}</p>
           <p class="catalog-card__description">{{ movie.description }}</p>
 
-          <button class="catalog-play" type="button">
-            <span class="material-symbols-outlined">play_arrow</span>
-            Watch Now
-          </button>
+          <div class="catalog-card__actions">
+            <button class="catalog-play" type="button" (click)="playMovie(movie.id, $event)">
+              <span class="material-symbols-outlined">play_arrow</span>
+              Watch Now
+            </button>
+
+            <button class="catalog-save" type="button" (click)="addToWatchlist(movie.id, $event)">
+              <span class="material-symbols-outlined">add</span>
+              My List
+            </button>
+          </div>
         </div>
       </article>
     </section>

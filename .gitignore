@@ -1,6 +1,7 @@
 frontend/.angular/
 frontend/dist/
 frontend/node_modules/
+frontend/.vscode/
 
 Backend/sob-venv/
 Backend/.env

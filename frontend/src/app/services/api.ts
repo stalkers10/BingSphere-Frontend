@@ -40,6 +40,10 @@ export class ApiService {
     return this.http.get<WatchlistItem[]>(this.watchlistUrl);
   }
 
+  addToWatchlist(movieId: number): Observable<WatchlistItem> {
+    return this.http.post<WatchlistItem>(this.watchlistUrl, { movie: movieId });
+  }
+
   removeFromWatchlist(id: number): Observable<void> {
     return this.http.delete<void>(`${this.watchlistUrl}${id}/`);
   }

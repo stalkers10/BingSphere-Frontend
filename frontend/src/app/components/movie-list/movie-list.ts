@@ -34,6 +34,9 @@ export class MovieList implements OnInit {
   searchQuery = '';
   isLoading = true;
   error: string | null = null;
+  feedbackMessage: string | null = null;
+  feedbackTone: 'success' | 'error' = 'success';
+  private feedbackTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -50,8 +53,29 @@ export class MovieList implements OnInit {
     this.applyFilter();
   }
 
-  playMovie(movieId: number) {
+  playMovie(movieId: number, event?: Event) {
+    event?.stopPropagation();
     this.router.navigate(['/watch', movieId]);
+  }
+
+  addToWatchlist(movieId: number, event?: Event) {
+    event?.stopPropagation();
+
+    this.apiService.addToWatchlist(movieId).subscribe({
+      next: () => {
+        this.showFeedback('Added to My List.', 'success');
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+          return;
+        }
+
+        this.showFeedback(this.getWatchlistErrorMessage(err), 'error');
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   trackByMovieId(_: number, movie: Movie) {
@@ -126,5 +150,36 @@ export class MovieList implements OnInit {
 
       return searchableText.includes(query);
     });
+  }
+
+  private showFeedback(message: string, tone: 'success' | 'error') {
+    this.feedbackMessage = message;
+    this.feedbackTone = tone;
+
+    if (this.feedbackTimer) {
+      window.clearTimeout(this.feedbackTimer);
+    }
+
+    this.feedbackTimer = window.setTimeout(() => {
+      this.feedbackMessage = null;
+      this.feedbackTimer = null;
+      this.cdr.detectChanges();
+    }, 3000);
+  }
+
+  private getWatchlistErrorMessage(err: any) {
+    const errorPayload = err?.error;
+
+    if (typeof errorPayload === 'string') {
+      return errorPayload;
+    }
+
+    return (
+      errorPayload?.error ??
+      errorPayload?.detail ??
+      errorPayload?.non_field_errors?.[0] ??
+      errorPayload?.movie?.[0] ??
+      'Could not add this title right now.'
+    );
   }
 }

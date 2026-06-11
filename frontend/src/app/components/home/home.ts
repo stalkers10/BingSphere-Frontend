@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeCollection, WatchProgress } from '../../models/home';
 import { Movie } from '../../models/movie';
-import { apiUrl } from '../../config/runtime-config';
 import { ApiService } from '../../services/api';
 import { FooterComponent } from '../footer/footer';
 import { NavbarComponent } from '../navbar/navbar';
@@ -53,13 +51,11 @@ export class Home implements OnInit {
   feedbackMessage: string | null = null;
   feedbackTone: 'success' | 'error' = 'success';
   private feedbackTimer: ReturnType<typeof setTimeout> | null = null;
-  private readonly watchlistUrl = apiUrl('watchlist/');
   private defaultFeaturedMovie: Movie | null = null;
 
   constructor(
     private apiService: ApiService,
     private router: Router,
-    private http: HttpClient,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -104,7 +100,7 @@ export class Home implements OnInit {
   addToWatchlist(movieId: number, event?: Event) {
     event?.stopPropagation();
 
-    this.http.post(this.watchlistUrl, { movie: movieId }).subscribe({
+    this.apiService.addToWatchlist(movieId).subscribe({
       next: () => {
         this.showFeedback('Added to My List.', 'success');
         this.cdr.detectChanges();
@@ -115,7 +111,7 @@ export class Home implements OnInit {
           return;
         }
 
-        this.showFeedback(err.error?.error ?? 'Could not add this title right now.', 'error');
+        this.showFeedback(this.getWatchlistErrorMessage(err), 'error');
         this.cdr.detectChanges();
       }
     });
@@ -261,5 +257,21 @@ export class Home implements OnInit {
       this.feedbackTimer = null;
       this.cdr.detectChanges();
     }, 3000);
+  }
+
+  private getWatchlistErrorMessage(err: any) {
+    const errorPayload = err?.error;
+
+    if (typeof errorPayload === 'string') {
+      return errorPayload;
+    }
+
+    return (
+      errorPayload?.error ??
+      errorPayload?.detail ??
+      errorPayload?.non_field_errors?.[0] ??
+      errorPayload?.movie?.[0] ??
+      'Could not add this title right now.'
+    );
   }
 }

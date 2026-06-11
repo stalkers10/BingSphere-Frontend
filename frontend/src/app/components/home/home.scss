@@ -604,7 +604,32 @@
   }
 
   .content-row--mobile-image-cards .poster-card__overlay {
+    inset: 0.5rem 0.5rem auto auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 0;
+    background: transparent;
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .content-row--mobile-image-cards .poster-card__overlay .overlay-action {
     display: none;
+  }
+
+  .content-row--mobile-image-cards .poster-card__overlay .overlay-action--outline {
+    display: inline-flex;
+    width: 2.05rem;
+    height: 2.05rem;
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(0, 0, 0, 0.54);
+    color: #fff;
+    pointer-events: auto;
+  }
+
+  .content-row--mobile-image-cards .poster-card__overlay .material-symbols-outlined {
+    font-size: 1.08rem;
   }
 
   .content-row--mobile-image-cards .poster-card__details {
